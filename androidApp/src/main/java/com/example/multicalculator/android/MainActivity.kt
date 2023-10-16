@@ -71,13 +71,31 @@ fun CalcView() {
             "/" -> if (rightNumber.value != 0) {
                 answer = leftNumber.value / rightNumber.value
             } else {
-                // Handle potential error, e.g., set an error message to displayText
                 displayText.value = "Error: Division by zero"
                 return
             }
         }
 
         displayText.value = answer.toString()
+    }
+    else if (operation.value.isNotEmpty() && !complete.value) {
+        displayText.value = rightNumber.value.toString()
+    }
+    else {
+        displayText.value = leftNumber.value.toString()
+    }
+
+    // Three empty functions
+    fun numberPress() {
+
+    }
+
+    fun operationPress() {
+
+    }
+
+    fun equalsPress() {
+
     }
 
     Column(modifier = Modifier.background(Color.LightGray))
