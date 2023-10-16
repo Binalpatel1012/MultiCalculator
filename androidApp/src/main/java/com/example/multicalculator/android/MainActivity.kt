@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -52,6 +53,33 @@ fun DefaultPreview() {
 @Composable
 fun CalcView() {
     val displayText = remember { mutableStateOf("0") }
+
+    //state variable
+    val leftNumber = rememberSaveable { mutableStateOf(0) }
+    val rightNumber = rememberSaveable { mutableStateOf(0) }
+    val operation = rememberSaveable { mutableStateOf("") }
+    val complete = rememberSaveable { mutableStateOf(false) }
+
+    // Check if complete is true and operation is not an empty string
+    if (complete.value && operation.value.isNotEmpty()) {
+        var answer = 0
+
+        when (operation.value) {
+            "+" -> answer = leftNumber.value + rightNumber.value
+            "-" -> answer = leftNumber.value - rightNumber.value
+            "*" -> answer = leftNumber.value * rightNumber.value
+            "/" -> if (rightNumber.value != 0) {
+                answer = leftNumber.value / rightNumber.value
+            } else {
+                // Handle potential error, e.g., set an error message to displayText
+                displayText.value = "Error: Division by zero"
+                return
+            }
+        }
+
+        displayText.value = answer.toString()
+    }
+
     Column(modifier = Modifier.background(Color.LightGray))
     {
         Row {
