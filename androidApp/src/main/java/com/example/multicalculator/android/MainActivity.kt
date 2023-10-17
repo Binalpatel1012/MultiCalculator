@@ -119,18 +119,18 @@ fun CalcView() {
         Row {
             Column {
                 for (i in 7 downTo 1 step 3) {
-                    CalcRow(displayText, i, 3)
+                    CalcRow(onPress = { number -> numberPress(number) },startNum = i, 3)
                 }
                 Row {
-                    CalcNumericButton(0, displayText)
-                    CalcEqualsButton(displayText)
+                    CalcNumericButton(0, onPress = { number -> numberPress(number) })
+                    CalcEqualsButton(onPress = { equalsPress() })
                 }
             }
             Column {
-                CalcOperationButton("+", displayText)
-                CalcOperationButton("-", displayText)
-                CalcOperationButton("*", displayText)
-                CalcOperationButton("/", displayText)
+                CalcOperationButton("+", onPress = { op -> operationPress(op) })
+                CalcOperationButton("-", onPress = { op -> operationPress(op) })
+                CalcOperationButton("*", onPress = { op -> operationPress(op) })
+                CalcOperationButton("/", onPress = { op -> operationPress(op) })
             }
         }
 
@@ -138,11 +138,11 @@ fun CalcView() {
 }
 
 @Composable
-fun CalcRow(display: MutableState<String>, startNum: Int, numButtons: Int) {
+fun CalcRow(onPress: (number: Int) -> Unit, startNum: Int, numButtons: Int) {
     val endNum = startNum + numButtons
     Row(modifier = Modifier.padding(0.dp)) {
         for (i in startNum until endNum) {
-            CalcNumericButton(i, display)
+            CalcNumericButton(i, onPress)
         }
     }
 }
@@ -160,9 +160,9 @@ fun CalcDisplay(display: MutableState<String>) {
 }
 
 @Composable
-fun CalcNumericButton(number: Int, display: MutableState<String>) {
+fun CalcNumericButton(number: Int, onPress: (number: Int) -> Unit) {
     Button(
-        onClick = { display.value += number.toString() },
+        onClick = { onPress(number) },
         modifier = Modifier.padding(4.dp)
     ) {
         Text(text = number.toString())
@@ -170,16 +170,16 @@ fun CalcNumericButton(number: Int, display: MutableState<String>) {
 }
 
 @Composable
-fun CalcOperationButton(operation: String, display: MutableState<String>) {
-    Button(onClick = {}, modifier = Modifier.padding(4.dp)) {
+fun CalcOperationButton(operation: String, onPress: (operation: String) -> Unit) {
+    Button(onClick = {onPress(operation)}, modifier = Modifier.padding(4.dp)) {
         Text(text = operation)
     }
 }
 
 @Composable
-fun CalcEqualsButton(display: MutableState<String>) {
+fun CalcEqualsButton(onPress: () -> Unit) {
     Button(
-        onClick = { display.value = "0" },
+        onClick = { onPress() },
         modifier = Modifier.padding(4.dp)
     ) {
         Text(text = "=")
