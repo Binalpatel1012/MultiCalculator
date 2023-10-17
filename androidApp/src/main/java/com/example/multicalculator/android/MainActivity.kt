@@ -86,16 +86,29 @@ fun CalcView() {
     }
 
     // Three empty functions
-    fun numberPress() {
-
+    fun numberPress(btnNum: Int) {
+        if (complete.value) {
+            leftNumber.value = 0
+            rightNumber.value = 0
+            operation.value = ""
+            complete.value = false
+        }
+        else if (operation.value.isNotBlank() && !complete.value) {
+            rightNumber.value = rightNumber.value * 10 + btnNum
+        }
+        else if (operation.value.isBlank() && !complete.value) {
+            leftNumber.value = leftNumber.value * 10 + btnNum
+        }
     }
 
-    fun operationPress() {
-
+    fun operationPress(op: String) {
+        if (!complete.value) {
+            operation.value = op
+        }
     }
 
     fun equalsPress() {
-
+        complete.value = true
     }
 
     Column(modifier = Modifier.background(Color.LightGray))
