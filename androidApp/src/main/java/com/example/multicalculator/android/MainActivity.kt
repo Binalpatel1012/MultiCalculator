@@ -85,7 +85,7 @@ fun CalcView() {
         displayText.value = leftNumber.value.toString()
     }
 
-    // Three empty functions
+    // Three functions
     fun numberPress(btnNum: Int) {
         if (complete.value) {
             leftNumber.value = 0
